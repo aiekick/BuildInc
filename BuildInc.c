@@ -87,7 +87,8 @@ void ParseFile(const char* vFile)
 			fclose(fp);
 		}
 
-		if (idx == 3)
+		if (idx == 3 || // parse du fichier ok 
+			fp == NULL) // fichier non existant
 		{
 			// treatment
 			BuildNumber++;
@@ -101,7 +102,7 @@ void ParseFile(const char* vFile)
 				MinorNumber = 0;
 				MajorNumber++;
 			}
-
+			
 			// print vars :
 			printf("Build Id : %i.%i.%i\n", MajorNumber, MinorNumber, BuildNumber);
 
