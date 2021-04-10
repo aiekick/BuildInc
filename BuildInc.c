@@ -23,15 +23,15 @@ int ParseRule(const char* vRule)
 			rule_maxBuildNumber = maxBuild;
 			rule_maxMinorNumber = maxMinor;
 
-			printf("Defined rule : %i:%i\n", rule_maxBuildNumber, rule_maxMinorNumber);
+			printf("-- The Rule is : %i:%i\n", rule_maxBuildNumber, rule_maxMinorNumber);
 
 			return 1;
 		}
 	}
 
-	printf("The rule is missing or wrong\n");
-	printf("The rule must respect this format max_build_number:max_minor_number\n");
-	printf("The default rule of 1000:10 will be applied\n");
+	printf("-- The rule is missing or wrong\n");
+	printf("-- The rule must respect this format max_build_number:max_minor_number\n");
+	printf("-- The default rule of 1000:10 will be applied\n");
 
 	return 0;
 }
@@ -56,7 +56,7 @@ void ParseFile(const char* vFile)
 				fgets(bufLine, MAX_LENGTH, fp);
 				if (ferror(fp))
 				{
-					fprintf(stderr, "Reading error with code %d\n", errno);
+					fprintf(stderr, "-- Reading error with code %d\n", errno);
 					break;
 				}
 
@@ -104,7 +104,7 @@ void ParseFile(const char* vFile)
 			}
 			
 			// print vars :
-			printf("Build Id : %i.%i.%i\n", MajorNumber, MinorNumber, BuildNumber);
+			printf("-- The Build Id is : %i.%i.%i\n", MajorNumber, MinorNumber, BuildNumber);
 
 			FILE* fp = fopen(vFile, "w");
 			if (fp)
@@ -141,6 +141,8 @@ void ParseFile(const char* vFile)
 
 int main(int argc, char* argv[]) // Don't forget first integral argument 'argc'
 {
+	printf("-------------------- BuildInc --------------------\n");
+
 	/*
 	the build id is : MajorNumber.MinorNumber.BuildNumber
 	if the rule is "1000:10" this correspond to :
@@ -150,23 +152,15 @@ int main(int argc, char* argv[]) // Don't forget first integral argument 'argc'
 		MajorNumber++
 	*/
 
-#ifdef _DEBUG
-	for (int i = 0; i < argc; i++)
-	{
-		printf("%s ", argv[i]);
-	}
-	printf("\n");
-#endif
-
 	if (argc == 1)
 	{
-		printf("this func will increment in a c/c++ include file, 3 vars : MajorNumber, MinorNumber and BuildNumber, according to a rule\n");
-		printf("the syntax is : BuildInc rule include_file\n");
-		printf("the rule is 'max_build_number:max_minor_number' \n");
-		printf("by ex with a rule of 1000:10 the corresponding pseudo code will be :\n");
-		printf("if (BuildNumber > 1000) MinorNumber++;\n");
-		printf("if (MinorNumber > 10) MajorNumber++\n");
-		printf("the Build id will be MajorNumber.MinorNumber.BuildNumber\n");
+		printf("-- this func will increment in a c/c++ include file, 3 vars : MajorNumber, MinorNumber and BuildNumber, according to a rule\n");
+		printf("-- the syntax is : BuildInc rule include_file\n");
+		printf("-- the rule is 'max_build_number:max_minor_number' \n");
+		printf("-- by ex with a rule of 1000:10 the corresponding pseudo code will be :\n");
+		printf("-- if (BuildNumber > 1000) MinorNumber++;\n");
+		printf("-- if (MinorNumber > 10) MajorNumber++\n");
+		printf("-- the Build id will be MajorNumber.MinorNumber.BuildNumber\n");
 	}
 
 	int idx = 1;
@@ -178,6 +172,8 @@ int main(int argc, char* argv[]) // Don't forget first integral argument 'argc'
 			ParseFile(argv[idx]);
 	}
 
+	printf("--------------------------------------------------\n");
+	
 	return 0;
 }
 
