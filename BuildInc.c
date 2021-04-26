@@ -68,17 +68,17 @@ void ParseFile(const char* vFile)
 					if (strcmp(bufKey, BUILD_WORD) == 0)
 					{
 						BuildNumber = id;
-						idx++;
+						++idx;
 					}
 					else if (strcmp(bufKey, MINOR_WORD) == 0)
 					{
 						MinorNumber = id;
-						idx++;
+						++idx;
 					}
 					else if (strcmp(bufKey, MAJOR_WORD) == 0)
 					{
 						MajorNumber = id;
-						idx++;
+						++idx;
 					}
 				}
 			}
@@ -89,16 +89,16 @@ void ParseFile(const char* vFile)
 			fp == NULL) // fichier non existant
 		{
 			// treatment
-			BuildNumber++;
+			++BuildNumber;
 			if (BuildNumber > rule_maxBuildNumber)
 			{
 				BuildNumber = 0;
-				MinorNumber++;
+				++MinorNumber;
 			}
 			if (MinorNumber > rule_maxMinorNumber)
 			{
 				MinorNumber = 0;
-				MajorNumber++;
+				++MajorNumber;
 			}
 			
 			// print vars :
@@ -146,9 +146,9 @@ int main(int argc, char* argv[]) // Don't forget first integral argument 'argc'
 	the build id is : MajorNumber.MinorNumber.BuildNumber
 	if the rule is "1000:10" this correspond to :
 	if (BuildNumber > 1000)
-		MinorNumber++
+		++MinorNumber;
 	if (MinorNumber > 10)
-		MajorNumber++
+		++MajorNumber;
 	*/
 
 	if (argc == 1)
@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) // Don't forget first integral argument 'argc'
 	if (argc > 1)
 	{
 		int res = ParseRule(argv[idx]);
-		if (res) idx++;
+		if (res) ++idx;
 		if (argc > 2 || res == 0)
 			ParseFile(argv[idx]);
 	}
