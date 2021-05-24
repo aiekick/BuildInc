@@ -102,10 +102,10 @@ void ParseFile(const char* vFile)
 			}
 			
 			// print vars :
-			printf("-------------------- BuildInc --------------------\n");
-			printf("-- The Rule is : %i:%i\n", rule_maxBuildNumber, rule_maxMinorNumber);
-			printf("-- The Build Id is : %i.%i.%i\n", MajorNumber, MinorNumber, BuildNumber);
-			printf("--------------------------------------------------\n");
+            printf("-------------------- BuildInc ----------------------------------------------------------------------\n");
+            printf("-- Build Id : %i.%i.%i\n", MajorNumber, MinorNumber, BuildNumber);
+            printf("-- In file %s\n", vFile);
+            printf("----------------------------------------------------------------------------------------------------\n");
 
 			FILE* fp = fopen(vFile, "w");
 			if (fp)
@@ -158,8 +158,8 @@ int main(int argc, char* argv[]) // Don't forget first integral argument 'argc'
 		printf("-- the syntax is : BuildInc rule include_file\n");
 		printf("-- the rule is 'max_build_number:max_minor_number' \n");
 		printf("-- by ex with a rule of 1000:10 the corresponding pseudo code will be :\n");
-		printf("-- if (BuildNumber > 1000) MinorNumber++;\n");
-		printf("-- if (MinorNumber > 10) MajorNumber++\n");
+        printf("-- if (BuildNumber > 1000) ++MinorNumber;\n");
+        printf("-- if (MinorNumber > 10) ++MajorNumber\n");
 		printf("-- the Build id will be MajorNumber.MinorNumber.BuildNumber\n");
 		printf("--------------------------------------------------\n");
 	}

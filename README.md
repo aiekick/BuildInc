@@ -1,6 +1,6 @@
 ## BuildInc
 
-cet utilitaire sert a incrementer des varaibles dans un fichier include de Build
+cet utilitaire sert a incrementer des variables dans un fichier include de Build
 
 ## Syntaxe
 
@@ -18,9 +18,9 @@ par exemple une rule de 1000:10 va faire :
 
 ```
     if (BuildNumber > 1000) 
-    MinorNumber++;
+    	MinorNumber++;
     if (MinorNumber > 10) 
-    MajorNumber++;
+    	MajorNumber++;
 ```
    
 ## Include File
