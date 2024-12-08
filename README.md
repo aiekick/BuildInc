@@ -1,40 +1,42 @@
 ## BuildInc
 
-cet utilitaire sert a incrementer des variables dans un fichier include de Build
+This tool can parse a build id file, increment the number and write it again
+let you have many infos to include in your code
 
 ## Syntaxe
 
-la syntaxe est : 
+The syntax is : 
 
 ```
-BuildInc rule include_file
-```
+Usage : BuidInc [--project] [--file] prefix
 
-## Rule
+Positionnal arguments :
+ prefix       prefix of the build id
 
-la syntaxe de la rule est : max_build_number:max_minor_number
-
-par exemple une rule de 1000:10 va faire :
-
-```
-    if (BuildNumber > 1000) 
-    	MinorNumber++;
-    if (MinorNumber > 10) 
-    	MajorNumber++;
+Optional arguments :
+ --project    project of the build id
+ --file       file of the build id
 ```
    
 ## Include File
 
-par ex un fichier Build.h
-qui contiendra :
+by ex :
+
+A file : Build.h 
+A project : "Toto"
+A prefix : "toto"
+
+will give this result
 
 ```
 #pragma once
 
-#define BuildNumber 119
-#define MinorNumber 5
-#define MajorNumber 0
-#define BuildId "0.5.119"
+#define Toto_Prefix "toto"
+#define Toto_BuildNumber 3
+#define Toto_MinorNumber 0
+#define Toto_MajorNumber 0
+#define Toto_BuildId "0.0.3"
+
 ```
 
 
