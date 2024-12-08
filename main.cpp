@@ -29,17 +29,19 @@ SOFTWARE.
 int main(int vArgc, char* vArgv[]) { 
     ez::App app(vArgc, vArgv);
     ez::Args args("BuidInc");
-    args.addArgument("prefix").help("prefix of the build id").delimiter(' ');
-    args.addOptional("--project").help("project of the build id").delimiter(' ');
-    args.addOptional("--file").help("file of the build id").delimiter(' ');
+    args.addArgument("project").help("prefix of the build id").delimiter(' ');
+    args.addArgument("file").help("file of the build id").delimiter(' ');
+    args.addOptional("--label").help("label of the project").delimiter('=');
     if (args.parse(vArgc, vArgv)) {
         std::string project = args.getValue<std::string>("project");
-        std::string prefix = args.getValue<std::string>("prefix");
+        std::string label = args.getValue<std::string>("label");
+        if (label.empty()) {
+            label = project;
+        }
         std::string file = args.getValue<std::string>("file"); 
         if (!file.empty()) {
-            ez::BuildInc(file).setProject(project).setPrefix(prefix).incBuildNumber().write().printInfos();
+            ez::BuildInc(file).setProject(project).setLabel(label).incBuildNumber().write().printInfos();
         }
-        args.printHelp();
     }
     return 0;
 }
