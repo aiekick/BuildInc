@@ -34,6 +34,7 @@ int main(int vArgc, char* vArgv[]) {
     args.addArgument("file").help("file of the build id").delimiter(' ');
     args.addOptional("--label").help("label of the project").delimiter(' ');
     args.addOptional("-ff/--figfont").help("FigFont file; will add a FigFont based label").delimiter(' ');
+    args.addOptional("--no-help").help("will not print the help if the required arguments are not set");
     if (args.parse(vArgc, vArgv)) {
         std::string project = args.getValue<std::string>("project");
         std::string label = args.getValue<std::string>("label");
@@ -48,7 +49,9 @@ int main(int vArgc, char* vArgv[]) {
             builder.incBuildNumber().write().printInfos();
         }
         else {
-            args.printHelp();
+			if (!args.isPresent("no-help")) {
+				args.printHelp();
+			}
         }
     }
     return 0;
