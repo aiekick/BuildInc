@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include <ezlibs/ezApp.hpp>
 #include <ezlibs/ezArgs.hpp>
+#include <ezlibs/ezFigFont.hpp>
 #include <ezlibs/ezBuildInc.hpp>
 
 int main(int vArgc, char* vArgv[]) { 
@@ -31,16 +32,20 @@ int main(int vArgc, char* vArgv[]) {
     ez::Args args("BuidInc");
     args.addArgument("project").help("prefix of the build id").delimiter(' ');
     args.addArgument("file").help("file of the build id").delimiter(' ');
-    args.addOptional("--label").help("label of the project").delimiter('=');
+    args.addOptional("--label").help("label of the project").delimiter(' ');
+    args.addOptional("--figfont/-ff").help("FigFont file; will add a FigFont version").delimiter(' ');
     if (args.parse(vArgc, vArgv)) {
         std::string project = args.getValue<std::string>("project");
         std::string label = args.getValue<std::string>("label");
         if (label.empty()) {
             label = project;
         }
+        std::string figFontFile = args.getValue<std::string>("figfont");
         std::string file = args.getValue<std::string>("file"); 
         if (!file.empty()) {
-            ez::BuildInc(file).setProject(project).setLabel(label).incBuildNumber().write().printInfos();
+            ez::BuildInc builder(file);
+            builder.setProject(project).setLabel(label).setFigFontFile(figFontFile);
+            builder.incBuildNumber().write().printInfos();
         }
     }
     return 0;
