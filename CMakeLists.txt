@@ -4,8 +4,12 @@ set(PROJECT BuildInc)
 enable_language(CXX)
 project(${PROJECT} CXX)
 
-include_directories(${CMAKE_SOURCE_DIR}/3rdparty/ezlibs/include)
+set(EZLIBS_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/3rdparty/ezlibs/include)
+include_directories(${EZLIBS_INCLUDE_DIR})
 
-add_executable(${PROJECT} main.cpp)
+file(GLOB_RECURSE EZ_LIBS_SOURCES ${EZLIBS_INCLUDE_DIR}/ezlibs/*.hpp)
+source_group(TREE ${EZLIBS_INCLUDE_DIR}/ezlibs PREFIX ezlibs FILES ${EZ_LIBS_SOURCES})
+
+add_executable(${PROJECT} main.cpp ${EZ_LIBS_SOURCES})
 
 set_target_properties(${PROJECT} PROPERTIES FOLDER tools)
