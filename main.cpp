@@ -33,7 +33,7 @@ int main(int vArgc, char* vArgv[]) {
     args.addArgument("project").help("prefix of the build id").delimiter(' ');
     args.addArgument("file").help("file of the build id").delimiter(' ');
     args.addOptional("--label").help("label of the project").delimiter(' ');
-    args.addOptional("--figfont/-ff").help("FigFont file; will add a FigFont version").delimiter(' ');
+    args.addOptional("-ff/--figfont").help("FigFont file; will add a FigFont based label").delimiter(' ');
     if (args.parse(vArgc, vArgv)) {
         std::string project = args.getValue<std::string>("project");
         std::string label = args.getValue<std::string>("label");
@@ -46,6 +46,9 @@ int main(int vArgc, char* vArgv[]) {
             ez::BuildInc builder(file);
             builder.setProject(project).setLabel(label).setFigFontFile(figFontFile);
             builder.incBuildNumber().write().printInfos();
+        }
+        else {
+            args.printHelp();
         }
     }
     return 0;
