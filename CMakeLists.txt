@@ -4,7 +4,7 @@ set(PROJECT BuildInc)
 enable_language(CXX)
 project(${PROJECT} CXX)
 
-set(EZLIBS_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/3rdparty/ezlibs/include)
+set(EZLIBS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/ezlibs/include)
 include_directories(${EZLIBS_INCLUDE_DIR})
 
 file(GLOB_RECURSE EZ_LIBS_SOURCES ${EZLIBS_INCLUDE_DIR}/ezlibs/*.hpp)
