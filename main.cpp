@@ -30,8 +30,8 @@ SOFTWARE.
 int main(int vArgc, char* vArgv[]) { 
     ez::App app(vArgc, vArgv);
     ez::Args args("BuidInc");
-    args.addArgument("project").help("prefix of the build id");
-    args.addArgument("file").help("file of the build id");
+    args.addPositional("project").help("prefix of the build id");
+    args.addPositional("file").help("file of the build id");
     args.addOptional("--label").help("label of the project").delimiter(' ');
     args.addOptional("-ff/--figfont").help("FigFont file; will add a FigFont based label").delimiter(' ');
     args.addOptional("--no-help").help("will not print the help if the required arguments are not set");

@@ -40,14 +40,17 @@ SOFTWARE.
 #include <sstream>
 #include <iomanip>
 #include <cstdint>
-#include <cstdarg>
+#include <cstdarg> // variadic
 #include <clocale>  // std::setlocale
 #include <locale>   // toupper, tolower (with locale)
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
+#include "ezOS.hpp"
+
+#ifdef WINDOWS_OS
 #include <cwchar>
 #include "Windows.h"
 #endif
+
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -243,6 +246,19 @@ inline std::string toStr(const char* fmt, ...) {
     return std::string();
 }
 
+template< size_t MaxSize>
+inline std::string toStr(const char* fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    char TempBuffer[MaxSize+1];
+    const int w = vsnprintf(TempBuffer, MaxSize, fmt, args);
+    va_end(args);
+    if (w) {
+        return std::string(TempBuffer, (size_t)w);
+    }
+    return std::string();
+}
+
 inline std::string toUpper(const std::string& vStr, const std::locale& vLocale = {}) {
     std::string str = vStr;
     for (size_t i = 0U; i < str.size(); ++i) {
@@ -416,7 +432,7 @@ inline size_t getDigitsCountOfAIntegralNumber(const int64_t vNum) {
 
 inline std::string utf8Encode(const std::wstring& wstr) {
     std::string res;
-#if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#ifdef WINDOWS_OS
     if (!wstr.empty()) {
         int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
         if (size_needed) {
@@ -424,17 +440,17 @@ inline std::string utf8Encode(const std::wstring& wstr) {
             WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &res[0], size_needed, NULL, NULL);
         }
     }
-#else
+#else  // WINDOWS_OS
     // Suppress warnings from the compiler.
     (void)wstr;
-#endif  // _IGFD_WIN_
+#endif  // WINDOWS_OS
     return res;
 }
 
 // Convert an UTF8 string to a wide Unicode String
 inline std::wstring utf8Decode(const std::string& str) {
     std::wstring res;
-#if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64) || defined(_MSC_VER)
+#ifdef WINDOWS_OS
     if (!str.empty()) {
         int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
         if (size_needed) {
@@ -442,9 +458,9 @@ inline std::wstring utf8Decode(const std::string& str) {
             MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &res[0], size_needed);
         }
     }
-#else
+#else  // WINDOWS_OS
     (void)str;
-#endif  // _IGFD_WIN_
+#endif  // WINDOWS_OS
     return res;
 }
 
@@ -453,7 +469,7 @@ inline std::string searchForPatternWithWildcards(const std::string& vBuffer, con
     auto patterns = splitStringToVector(vWildcardedPattern, '*', false);
     vOutPosRange.first = std::string::npos;
     vOutPosRange.second = 0U;
-    for (const std::string &pattern: patterns) {
+    for (const std::string& pattern : patterns) {
         auto start = vBuffer.find(pattern, vOutPosRange.second);
         if (start != std::string::npos) {
             if (vOutPosRange.first == std::string::npos) {
@@ -522,7 +538,7 @@ inline std::vector<std::string> extractWildcardsFromPattern(const std::string& v
     return res;
 }
 
-}  // namespace ez
+}  // namespace str
 }  // namespace ez
 
 ////////////////////////////////////////////////////////////////////////////
